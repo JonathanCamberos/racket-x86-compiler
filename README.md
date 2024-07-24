@@ -2,13 +2,17 @@
 
 
 1 Introduction
+
 1.1 Project Selection and Implementation
 My compiler project was to add Racket’s let-values and values forms in order to allow for multiple return
 values from a single function. This implementation modifies the run-time system to mimic receiving an
 ‘array’, a vector pointer in our case, in the return register rax instead of a single value. Via returning a
 pointer to a vector currently on the heap, we are able to mimic the functionality of returning multiple
 values, while still only returning a single value in the rax register.
+
+
 2 Implementation
+
 2.1 Run-Time Additions and Issues
 I began by modifying the ast.rkt and parser.rkt file to account for the new forms “Let-Values” and
 “Values”. None of the other files needed to be modified to get the parsing working so this step was fairly
@@ -19,6 +23,7 @@ through the Cmsc430 class forum to see if anyone had run into similar issues and
 mentioned the project description was incomplete and that the compiler code should before the (Pop rbx)
 to restore the callee-save register instead of just the (ret). This was indeed my problem, and I was able to
 begin with the Values compiler implementation.
+
 2.2 Values Implementation
 The concept of returning a vector was still opaque to me. I was unsure how the runtime system was able
 to read a “vector” from rax so my next step was to read line by line, the provided main.c, unload/free, and
@@ -38,6 +43,7 @@ offsetting the resulting values by a multiple distance of 8 bytes, and returning
 location in the heap that held the vector length integer. This abstraction was precisely what I needed, and
 a simple modification of manually placing the different values on the heap ex: (the 2 5 6 in the previous
 “values” example) would fix the issue of make-vector only allowing a single value.
+
 2.3 Testing Issues and New “type-ID-Vect” Pointer
 Due to an unrealized error on my end (that I also unknowingly fixed later on), my raco test compile.rkt
 threw an segfault on every values multiple return values test case, which led me to utilizing the racket repl
@@ -45,6 +51,7 @@ manually for Values testing as shown in the image below. In order to debug, I wo
 and read the assembly until my Values compiler implementation was functional and returned a pointer. In
 addition, to distinguish between regular vectors and these new vectors (which we will now refer to as
 ID-Vect), I added a tag type “type-ID-vect” with #b110.
+
 2.4 Let-Values Implementation
 I proceeded with adding the Let-Values functionality of receiving multiple return-values and adding them
 to the environment. As opposed to the Values implementation which took into account the runtime
@@ -56,6 +63,7 @@ multiple values to multiple variables, added them to the given environment then 
 This mimicked our Let-Values goal with the exception of having to grab the values from a Vector on the
 heap instead of from a list of compiled values. Having a blueprint, I followed my old Let-Start
 implementation and was able to get the Let-Values working alongside the Values implementation.
+
 2.5 Updating Manual Testing Process to Raco Test
 Having my Let-Values and Values methods now functional, I decided to try and decipher the segfault
 error in my raco test compile.rkt to allow for more robust testing for my project. However, to my surprise,
@@ -68,6 +76,7 @@ check if what is inside rax before the (ret) is of type ID-Vector pointer. If it
 and if not it moves what is in rax, in this case the integer 5, and puts it in a unary ID-vector while moving
 the ID-Vect pointer to rax. Now all single return values or multiple return result in a ID-Vect pointer in
 rax being returned to the main.c program.
+
 2.6 Arity and Final Testing
 After having the barebones functionally working properly, I added arity checking for my Let-Values
 methods ensuring that Values would be providing the same length of arguments as the number of
@@ -77,6 +86,7 @@ specifically (add1 (values 5)). This implied, with my current Values implementat
 last bug, I simply added a helper function (single-Return-ID-Vec-Check) that would check for ID-Vectors
 of length 1 and move the value into rax. Ultimately, I took the provided Iniquity tests and modified them
 to return multiple values, alongside my own tests I wrote while creating Values and Let-Values.
+
 2.7 Shifting to Iniquity Due to Final Testing
 In the later days of testing, I ran into a lambda test case: (values ((lambda () (add1 4))) ). As this was a
 few days before the final project was due I spent the rest of the week attempting to figure out how to
@@ -85,6 +95,7 @@ version in time and as such I decided to abort my partially working Loot final p
 get a final version of a completely functional Iniquity final project with the new Let-Value and Value
 features. This was not a challenge as the logic that was in the Loot project transitioned easily and worked
 in the Iniquity version without any issues.
+
 3.0 Conclusion
 Overall, like many of the Cmsc430 compiler projects the Let-Values and Values functionality seemed
 daunting to add to my program. However, as I chose to write out this report at the same time as I
