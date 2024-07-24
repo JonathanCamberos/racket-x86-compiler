@@ -52,6 +52,9 @@ and read the assembly until my Values compiler implementation was functional and
 addition, to distinguish between regular vectors and these new vectors (which we will now refer to as
 ID-Vect), I added a tag type “type-ID-vect” with #b110.
 
+![image](https://github.com/user-attachments/assets/6295fdc9-1790-4879-873c-19c7f8155449)
+
+
 2.4 Let-Values Implementation
 I proceeded with adding the Let-Values functionality of receiving multiple return-values and adding them
 to the environment. As opposed to the Values implementation which took into account the runtime
@@ -63,6 +66,9 @@ multiple values to multiple variables, added them to the given environment then 
 This mimicked our Let-Values goal with the exception of having to grab the values from a Vector on the
 heap instead of from a list of compiled values. Having a blueprint, I followed my old Let-Start
 implementation and was able to get the Let-Values working alongside the Values implementation.
+
+![image](https://github.com/user-attachments/assets/935f5df9-ff30-46fd-b695-240186131cac)
+
 
 2.5 Updating Manual Testing Process to Raco Test
 Having my Let-Values and Values methods now functional, I decided to try and decipher the segfault
