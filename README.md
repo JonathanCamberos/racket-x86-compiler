@@ -19,7 +19,7 @@ I began by modifying the ast.rkt and parser.rkt file to account for the new form
 simple. In order to modify the runtime system, I followed the provided instructions to modify main.c,
 unload/free, and the compiler section. Immediately after however, segfaults on simple tests that returned a
 unary vector began to occur. After debugging for a few hours and starting from scratch, I combed
-through the Cmsc430 class forum to see if anyone had run into similar issues and found a thread that
+through forums to see if anyone had run into similar issues and found a thread that
 mentioned the project description was incomplete and that the compiler code should before the (Pop rbx)
 to restore the callee-save register instead of just the (ret). This was indeed my problem, and I was able to
 begin with the Values compiler implementation.
@@ -61,7 +61,7 @@ to the environment. As opposed to the Values implementation which took into acco
 system, understanding Let-Values conceptually and in code was much more straightforward. After
 compiling a Value clause, rax would be currently holding a pointer to the heap where we could access: 1)
 the length of the ID-Vect and 2) the values in the ID-Vect via offsetting the pointer in rax. This concept
-also reminded me of the Let-Star method from a previous Cmsc430 assignment where we matched
+also reminded me of the Let-Star method from a previous post where they matched
 multiple values to multiple variables, added them to the given environment then compiled a single clause.
 This mimicked our Let-Values goal with the exception of having to grab the values from a Vector on the
 heap instead of from a list of compiled values. Having a blueprint, I followed my old Let-Start
@@ -103,7 +103,7 @@ features. This was not a challenge as the logic that was in the Loot project tra
 in the Iniquity version without any issues.
 
 3.0 Conclusion
-Overall, like many of the Cmsc430 compiler projects the Let-Values and Values functionality seemed
+Overall, like many of the starter compiler projects the Let-Values and Values functionality seemed
 daunting to add to my program. However, as I chose to write out this report at the same time as I
 implemented the project, it pushed me to plan out my steps and essentially narrate my approach to
 problems. Having to explain my strategies towards tackling the issue of implementing Values, for
